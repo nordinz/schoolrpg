@@ -1,0 +1,9 @@
+För att koden ska fungera:
+1) Kör kommandot npm install i terminalen från mappen som heter api
+2) Kopiera och klistra in connection string till ditt cluster i config.js
+3) Kör npm start för att starta servern
+
+För att testa formuläret:
+1) Starta API-servern
+2) Öppna client.html i valfri webbläsare, fyll i formuläret och klicka på spara
+3) Sök efter dokumentet i MongoDB Compass med hjälp av Query API:et i Mongo Shell
