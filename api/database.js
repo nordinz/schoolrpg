@@ -7,7 +7,6 @@ const client = new MongoClient(connectionString);
 const db = client.db('schoolrpg'); // Den här databasen
 const collection = db.collection('characters'); // Den här kollektionen (collection)
 
-const ObjectId = require('mongodb').ObjectId;
 
 
 async function findAll() {
