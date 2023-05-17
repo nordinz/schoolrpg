@@ -9,6 +9,7 @@ const collection = db.collection('characters'); // Den här kollektionen (collec
 
 const ObjectId = require('mongodb').ObjectId;
 
+
 async function findAll() {
     await client.connect()
 
@@ -26,33 +27,44 @@ async function findAll() {
     return data
 }
 
-/* async function insert(name) {
-  await client.connect(); // Anslut
-
-  return result; // Returnera result (innehåller eventuella felmeddelanden)
+async function insert(data) {
+    await client.connect()
+    const result = await collection.insertOne(data)
+    client.close()
+    return result
 }
 
-async function update(_id, name) {
-  await client.connect(); // Anslut
-
-  client.close(); // Stäng anslutning
-
-  return result; // Returnera result (innehåller eventuella felmeddelanden)
+async function findOne(id) {
+    await client.connect()
+    const result = await collection.findOne({ _id: new ObjectId(id) })
+    client.close()
+    return result
 }
 
-async function deleteOne(_id) {
-  await client.connect(); // Anslut
-
-  client.close(); // Stäng anslutning
-
-  return result; // Returnera result (innehåller eventuella felmeddelanden)
-} */
-
-    return result;
+async function update(id, data) {
+    await client.connect()
+    const result = await collection.findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        { $set: data },
+        { returnOriginal: false }
+    )
+    client.close()
+    return result
 }
+
+async function deleteOne(id) {
+    await client.connect()
+    const result = await collection.findOneAndDelete({ _id: new ObjectId(id) })
+    client.close()
+    return result
+}
+
 module.exports = {
-  findAll,
-  /* insert,
-  update,
-  deleteOne, */
-};
+    ObjectId,
+    collection,
+    findAll,
+    insert,
+    findOne,
+    update,
+    deleteOne
+}
