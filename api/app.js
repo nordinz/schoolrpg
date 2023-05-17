@@ -13,7 +13,8 @@ app.use('/characters', characters);
 
 const play = require('./routes/play');
 app.use('/play', play);
-const worlds = require('./routes/world');
+
+const worlds = require('./routes/worlds');
 app.use('/worlds', worlds);
 
 app.listen(PORT, () => {
