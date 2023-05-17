@@ -13,7 +13,11 @@ router.get('/all', async (req, res) => {
 router.post('/create', async (req, res) => {
     try {
         const result = await db.insert(req.body)
-        res.status(201).json(result.ops[0])
+        if (result) {
+            res.status(201).json(result)
+        } else {
+            res.status(500).json({ error: 'Failed to insert character' })
+        }
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
