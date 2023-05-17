@@ -1,57 +1,67 @@
-const config = require('./config');
-const { MongoClient } = require('mongodb');
+const config = require('./config')
+const { MongoClient, ObjectId } = require('mongodb')
 
-const connectionString = config.CONNECTION_STRING;
-const client = new MongoClient(connectionString);
+const connectionString = config.CONNECTION_STRING
+const client = new MongoClient(connectionString)
 
-const db = client.db('schoolrpg'); // Den här databasen
-const collection = db.collection('characters'); // Den här kollektionen (collection)
-
-const ObjectId = require('mongodb').ObjectId;
+const db = client.db('schoolrpg')
+const collection = db.collection('characters')
 
 async function findAll() {
-  await client.connect(); // Anslut
+    await client.connect()
 
-  const projection = { name: 1, race: 1, class: 1, stats: 1 }; // Filtrering
+    const projection = { name: 1, race: 1, class: 1, stats: 1 }
+    const limit = 10
 
-  const limit = 10; // Filtrering
+    let data = await collection
+        .find()
+        .project(projection)
+        .limit(limit)
+        .toArray()
 
-  let data = await collection
-    .find()
-    .project(projection) // Ge mig bara fältet name
-    .limit(limit) // Ge mig bara 3 dokument
-    .toArray();
+    client.close()
 
-  client.close(); // Stäng anslutning
-
-  return data;
+    return data
 }
 
-/* async function insert(name) {
-  await client.connect(); // Anslut
-
-  return result; // Returnera result (innehåller eventuella felmeddelanden)
+async function insert(data) {
+    await client.connect()
+    const result = await collection.insertOne(data)
+    client.close()
+    return result
 }
 
-async function update(_id, name) {
-  await client.connect(); // Anslut
-
-  client.close(); // Stäng anslutning
-
-  return result; // Returnera result (innehåller eventuella felmeddelanden)
+async function findOne(id) {
+    await client.connect()
+    const result = await collection.findOne({ _id: new ObjectId(id) })
+    client.close()
+    return result
 }
 
-async function deleteOne(_id) {
-  await client.connect(); // Anslut
+async function update(id, data) {
+    await client.connect()
+    const result = await collection.findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        { $set: data },
+        { returnOriginal: false }
+    )
+    client.close()
+    return result
+}
 
-  client.close(); // Stäng anslutning
-
-  return result; // Returnera result (innehåller eventuella felmeddelanden)
-} */
+async function deleteOne(id) {
+    await client.connect()
+    const result = await collection.findOneAndDelete({ _id: new ObjectId(id) })
+    client.close()
+    return result
+}
 
 module.exports = {
-  findAll,
-  /* insert,
-  update,
-  deleteOne, */
-};
+    ObjectId,
+    collection,
+    findAll,
+    insert,
+    findOne,
+    update,
+    deleteOne
+}
