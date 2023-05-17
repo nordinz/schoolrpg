@@ -28,10 +28,28 @@ async function findAll() {
 }
 
 async function insert(data) {
-    await client.connect()
-    const result = await collection.insertOne(data)
-    client.close()
-    return result
+    try {
+        await client.connect()
+        const result = await collection.insertOne(data)
+
+        if (result && result.insertedId) {
+            const insertedId = result.insertedId
+            const insertedCharacter = await collection.findOne({
+                _id: insertedId
+            })
+            console.log('Character inserted:', insertedCharacter)
+            client.close()
+            return insertedCharacter
+        } else {
+            console.error('Failed to insert character: Insertion unsuccessful')
+            client.close()
+            return null
+        }
+    } catch (error) {
+        console.error(`Failed to insert character: ${error.message}`)
+        client.close()
+        throw new Error(`Failed to insert character: ${error.message}`)
+    }
 }
 
 async function findOne(id) {
