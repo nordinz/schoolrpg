@@ -4,11 +4,8 @@ const { MongoClient, ObjectId } = require('mongodb')
 const connectionString = config.CONNECTION_STRING
 const client = new MongoClient(connectionString)
 
-const db = client.db('schoolrpg'); // Den här databasen
-const collection = db.collection('characters'); // Den här kollektionen (collection)
-
-const ObjectId = require('mongodb').ObjectId;
-
+const db = client.db('schoolrpg')
+const collection = db.collection('characters')
 
 async function findAll() {
     await client.connect()
@@ -46,22 +43,21 @@ async function update(id, data) {
     const result = await collection.findOneAndUpdate(
         { _id: new ObjectId(id) },
         { $set: data },
-        { returnOriginal: false }
+        { returnDocument: 'after' }
     )
     client.close()
-    return result
+    return result.value
 }
 
 async function deleteOne(id) {
     await client.connect()
     const result = await collection.findOneAndDelete({ _id: new ObjectId(id) })
     client.close()
-    return result
+    return result.value
 }
 
 module.exports = {
     ObjectId,
-    collection,
     findAll,
     insert,
     findOne,
