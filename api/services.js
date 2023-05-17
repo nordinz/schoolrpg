@@ -29,7 +29,7 @@ function playGame(req, res) {
   } else {
     result = 'Its a tie, you live to fight another day!';
   }
-  return res.json({ result, monsterDice, characterDice });
+  return res.json({ result, monsterDice, characterDice, diceQuantity });
 }
 module.exports = {
   playGame,
