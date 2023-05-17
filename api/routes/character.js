@@ -9,4 +9,5 @@ router.get('/all', async (req, res) => {
   return res.json(data);
 });
 
+
 module.exports = router;
