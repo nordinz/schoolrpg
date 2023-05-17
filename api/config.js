@@ -1,7 +1,7 @@
-require('dotenv').config();
+require('dotenv').config()
 
 const config = {
-  CONNECTION_STRING: process.env.CONNECTION_STRING,
-};
+    CONNECTION_STRING: process.env.CONNECTION_STRING
+}
 
-module.exports = config;
+module.exports = config
