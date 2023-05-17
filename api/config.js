@@ -1,6 +1,7 @@
+require('dotenv').config();
+
 const config = {
-  // Kopiera och klistra in din connection string
-  CONNECTION_STRING: 'mongodb+srv://nordin:Password@grp7.jpwn8dk.mongodb.net/',
+  CONNECTION_STRING: process.env.CONNECTION_STRING,
 };
 
 module.exports = config;
