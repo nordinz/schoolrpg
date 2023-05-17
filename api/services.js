@@ -9,7 +9,7 @@ function rollDice(diceQuantity) {
     (accumulator, currentValue) => accumulator + currentValue,
     0
   );
-  console.log(totalValue);
+  // console.log(totalValue);
   return totalValue;
 }
 
