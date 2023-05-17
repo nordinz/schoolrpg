@@ -13,6 +13,8 @@ app.use('/characters', characters);
 
 const play = require('./routes/play');
 app.use('/play', play);
+const worlds = require('./routes/world');
+app.use('/worlds', worlds);
 
 app.listen(PORT, () => {
   // LYSSNA på port
