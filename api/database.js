@@ -6,6 +6,7 @@ const client = new MongoClient(connectionString);
 
 const db = client.db('schoolrpg'); // Den här databasen
 const collection = db.collection('characters'); // Den här kollektionen (collection)
+const collectionWorld = db.collection('worlds'); // Den här kollektionen (collection)
 
 const ObjectId = require('mongodb').ObjectId;
 
@@ -27,31 +28,43 @@ async function findAll() {
   return data;
 }
 
-/* async function insert(name) {
-  await client.connect(); // Anslut
+async function insert(name) {
 
-  return result; // Returnera result (innehåller eventuella felmeddelanden)
+    await client.connect();
+
+    let result = await collection.insertOne({ name: name })
+
+    client.close();
+
+    return result;
 }
 
 async function update(_id, name) {
-  await client.connect(); // Anslut
 
-  client.close(); // Stäng anslutning
+    await client.connect();
+    let result = await collection.updateOne({ _id: new ObjectId(_id) }, { $set: { name: name} })
 
-  return result; // Returnera result (innehåller eventuella felmeddelanden)
+    client.close();
+
+    return result;
 }
 
 async function deleteOne(_id) {
-  await client.connect(); // Anslut
 
-  client.close(); // Stäng anslutning
+    await client.connect();
 
-  return result; // Returnera result (innehåller eventuella felmeddelanden)
-} */
 
+    let result = await collection.deleteOne({ _id: _id })
+
+    client.close();
+
+    return result;
+}
 module.exports = {
   findAll,
-  /* insert,
+  insert,
   update,
-  deleteOne, */
+  deleteOne,
+  collection,
+  collectionWorld
 };
